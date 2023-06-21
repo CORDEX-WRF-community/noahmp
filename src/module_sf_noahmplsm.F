@@ -1447,7 +1447,7 @@ ENDIF   ! CROPTYPE == 0
 ! --------------------------- liquid water ------------------------------
 ! maximum canopy water
 
-      MAXLIQ =  parameters%CH2OP * (ELAI+ ESAI)
+      MAXLIQ =  FVEG * parameters%CH2OP * (ELAI+ ESAI)
 
 ! average interception and throughfall
 
@@ -1477,7 +1477,7 @@ ENDIF   ! CROPTYPE == 0
 ! --------------------------- canopy ice ------------------------------
 ! for canopy ice
 
-      MAXSNO = 6.6*(0.27+46.0/BDFALL) * (ELAI+ ESAI)
+      MAXSNO = FVEG * 6.6*(0.27+46.0/BDFALL) * (ELAI+ ESAI)
 
       IF((ELAI+ ESAI) .GT. 0.0) THEN
          QINTS = FVEG * SNOW * FP
