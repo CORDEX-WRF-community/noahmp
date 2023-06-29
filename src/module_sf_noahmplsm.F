@@ -1447,7 +1447,7 @@ ENDIF   ! CROPTYPE == 0
 ! --------------------------- liquid water ------------------------------
 ! maximum canopy water
 
-      MAXLIQ =  parameters%CH2OP * (ELAI+ ESAI)
+      MAXLIQ =  FVEG * parameters%CH2OP * (ELAI+ ESAI)
 
 ! average interception and throughfall
 
@@ -1477,7 +1477,7 @@ ENDIF   ! CROPTYPE == 0
 ! --------------------------- canopy ice ------------------------------
 ! for canopy ice
 
-      MAXSNO = 6.6*(0.27+46.0/BDFALL) * (ELAI+ ESAI)
+      MAXSNO = FVEG * 6.6*(0.27+46.0/BDFALL) * (ELAI+ ESAI)
 
       IF((ELAI+ ESAI) .GT. 0.0) THEN
          QINTS = FVEG * SNOW * FP
@@ -4052,14 +4052,14 @@ ENDIF   ! CROPTYPE == 0
 
         B   = SAV-IRC-SHC-EVC-TR+PAHV                          !additional w/m2
 !        A   = FVEG*(4.0*CIR*TV**3 + CSH + (CEV+CTR)*DESTV) !volumetric heat capacity
-        A   = FVEG*(4.0*CIR*TV**3 + CSH + (CEV+CTR)*DESTV) + HCV/DT  ! total volumetric heat capacity, add canopy heat capacity, more stable
+        A   = FVEG*(4.0*CIR*TV**3 + CSH + (CEV+CTR)*DESTV + HCV/DT)  ! total volumetric heat capacity, add canopy heat capacity, more stable
         DTV = B/A
 
         IRC = IRC + FVEG*4.0*CIR*TV**3*DTV
         SHC = SHC + FVEG*CSH*DTV
         EVC = EVC + FVEG*CEV*DESTV*DTV
         TR  = TR  + FVEG*CTR*DESTV*DTV                               
-        CANHS = DTV * HCV/DT    ! w/m2 canopy heat storage change
+        CANHS = DTV * FVEG*HCV/DT    ! w/m2 canopy heat storage change
 
 ! update vegetation surface temperature
         TV  = TV + DTV

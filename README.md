@@ -1,3 +1,4 @@
-# Noah-MP version 4.4 release
+# Noah-MP version 4.5 release
 
-This is the official Noah-MP code version 4.4 that is consistent with that released in WRF v4.4. Starting from this release, WRF becomes connected to this Noah-MP GitHub code for v4.4 directly through GitHub submodule.
+
+This is the official Noah-MP code version 4.5 consistent with that released in WRF v4.5. Note that WRF v4.5 GitHub code is directly connected to this Noah-MP GitHub through the submodule mechanism. 
