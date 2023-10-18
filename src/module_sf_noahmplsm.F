@@ -5078,7 +5078,7 @@ ENDIF   ! CROPTYPE == 0
 ! initialize RS=RSMAX and PSN=0 because will only do calculations
 ! for APAR > 0, in which case RS <= RSMAX and PSN >= 0
 
-         APAR_scale = APAR / max(FVEG,1.0e-6)   ! scaling APAR back to stand scale
+         APAR = APAR / max(FVEG,1.0e-6)   ! scaling APAR back to stand scale
          CF = SFCPRS/(8.314*SFCTMP)*1.0e06
          RS = 1.0/parameters%BP * CF
          PSN = 0.0
