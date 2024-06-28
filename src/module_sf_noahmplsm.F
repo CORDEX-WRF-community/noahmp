@@ -440,6 +440,11 @@ MODULE MODULE_SF_NOAHMPLSM
      REAL :: TD_DDRAIN          ! m, Depth of drain
      REAL :: KLAT_FAC           ! multiplication factor to determine conk(j1,j) from sol_k(j1,j) for HRU
 
+!------------------------------------------------------------------------------------------!
+! From the LCZ section from URBPARM_LCZ.TBL file
+!------------------------------------------------------------------------------------------!
+     REAL :: SMCMAX_lcz         ! Saturated soil moisture ([volumetric fraction m^-3])
+     REAL :: FCR_lcz            ! Impermeable fraction due to frozen soil ([fraction])
 
   END TYPE noahmp_parameters
 
@@ -4808,9 +4813,9 @@ ENDIF   ! CROPTYPE == 0
 ! ----------------------------------------------------------------------
 ! LECH'S SURFACE FUNCTIONS
     PSLMU (ZZ)= -0.96* log (1.0-4.5* ZZ)
-    PSLMS (ZZ)= (ZZ/RFC) -2.076* (1.0 -1.0/ (ZZ +1.0))
+    PSLMS (ZZ)= ZZ * RRIC -2.076* (1.0 -1.0/ (ZZ +1.0))
     PSLHU (ZZ)= -0.96* log (1.0-4.5* ZZ)
-    PSLHS (ZZ)= ZZ * RFAC -2.076* (1.0 - exp(-1.2 * ZZ))
+    PSLHS (ZZ)= ZZ * RFAC -2.076* (1.0 -1.0/ (ZZ +1.0))
 ! PAULSON'S SURFACE FUNCTIONS
     PSPMU (XX)= -2.0* log ( (XX +1.0)*0.5) - log ( (XX * XX +1.0)*0.5)   &
          &        +2.0* ATAN (XX)                                            &
@@ -7359,7 +7364,7 @@ ENDIF   ! CROPTYPE == 0
 !surface runoff and infiltration rate using different schemes
 
 !jref impermable surface at urban
-    IF ( parameters%urban_flag ) FCR(1)= 0.95
+    IF ( parameters%urban_flag ) FCR(1)= parameters%FCR_lcz
 
     IF(OPT_RUN == 1) THEN
 !       FFF = 6.0
@@ -11098,6 +11103,7 @@ MODULE NOAHMP_TABLES
     INTEGER, PRIVATE, PARAMETER :: MAX_SOILTYP = 30
     INTEGER, PRIVATE, PARAMETER :: NCROP = 5
     INTEGER, PRIVATE, PARAMETER :: NSTAGE = 8
+    INTEGER, PRIVATE, PARAMETER :: NLCZ = 11
 
 ! MPTABLE.TBL vegetation parameters
 
@@ -11383,6 +11389,9 @@ MODULE NOAHMP_TABLES
 
     REAL :: sr2006_smcmax_a             ! sand adjustment
     REAL :: sr2006_smcmax_b             ! constant adjustment
+    
+    REAL :: SMCMAX_lcz_TABLE(NLCZ)      ! Saturated soil moisture ([volumetric fraction m^-3])
+    REAL :: FCR_lcz_TABLE(NLCZ)         ! Impermeable fraction due to frozen soil ([fraction])
 
 CONTAINS
 
@@ -12346,6 +12355,71 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
     close(15)
 
   end subroutine read_mp_optional_parameters
+  
+  SUBROUTINE read_mp_lcz_parameters(DATASET_IDENTIFIER)
+  ! Subroutine to read values from URBPARM_LCZ.TBL () file and store them into the noahmp_parameters TYPE
+  !   L. Fita, UBA/CIMA/IFAECI, June 2024
+
+    IMPLICIT NONE
+
+    CHARACTER(len=*), INTENT(in)                         :: DATASET_IDENTIFIER
+    INTEGER                                              :: ierr, iostatus
+    INTEGER                                              :: indx
+    INTEGER                                              :: icate
+    CHARACTER(len=512)                                   :: string    
+    CHARACTER(len=128)                                   :: name
+    
+    REAL, DIMENSION(:), ALLOCATABLE                      :: SMCMAX_TBL
+    REAL, DIMENSION(:), ALLOCATABLE                      :: FCR_TBL
+
+
+    ! Adapted from SUBROUTINE urban_param_init in phys/module_sf_urban.F
+    OPEN (UNIT=11, FILE='URBPARM_LCZ.TBL', ACCESS='SEQUENTIAL', STATUS='OLD', ACTION='READ',          &
+      POSITION='REWIND', IOSTAT=iostatus)
+
+    IF (iostatus > 0) THEN
+      WRITE(*,'("WARNING: Cannot find file URBPARM_LCZ.TBL. Make sure URBPARM_LCZ.TBL (found in " //  &
+         "run/) is linked to the running directory")')
+      CALL wrf_error_fatal("STOP in Noah-MP read_mp_lcz_parameters")
+    ENDIF
+
+    READLOOP : DO 
+      READ(11,'(A512)', iostat=iostatus) string
+      IF (iostatus /= 0) EXIT READLOOP
+      IF (string(1:1) == "#") CYCLE READLOOP
+      IF (TRIM(string) == "") CYCLE READLOOP
+
+      indx = INDEX(string,":")
+      
+      IF (indx <= 0) cycle READLOOP
+      name = TRIM(ADJUSTL(string(1:indx-1)))
+      
+      ! Here are the variables we expect to be defined in the URBPARM.TBL:
+      IF (name == "Number of urban categories") THEN
+         READ(string(indx+1:),*) icate
+         IF (.NOT. ALLOCATED(scmcax_tbl)) THEN
+            ALLOCATE( smcmax_tbl(icate), stat=allocate_status )
+            if(allocate_status /= 0) FATAL_ERROR('Error allocating SMCMAX_TBL in read_mp_lcz_parameters')
+            ALLOCATE( fcr_tbl(icate), stat=allocate_status )
+            if(allocate_status /= 0) FATAL_ERROR('Error allocating FCR_TBL in read_mp_lcz_parameters')
+         ENDIF
+      ELSE IF (name == "SMCMAX_URB") then
+         READ(string(indx+1:),*) smcmax_tbl(1:icate)
+      ELSE IF (name == "FCR_URB") then
+         read(string(indx+1:),*) fcr_tbl(1:icate)
+! L. Fita: I need to skipt this ELSE, otherwise I need to include all 135 LCZ parameters...
+!      ELSE
+!         FATAL_ERROR('URBPARM.TBL: Unrecognized NAME = "'//trim(name)//'" in Subr URBAN_PARAM_INIT')
+      ENDIF
+    ENDDO READLOOP
+
+    CLOSE(11)
+
+    ! Assigning the values to the noahmp_parameters
+    SMCMAX_lcz_TABLE(1:NLCZ) = smcmax_tbl(1:icate)
+    FCR_lcz_TABLE(1:NLCZ) = fcr_tbl(1:icate)
+
+  END SUBROUTINE read_mp_lcz_parameters
 
 END MODULE NOAHMP_TABLES
 
