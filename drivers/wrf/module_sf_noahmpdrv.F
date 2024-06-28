@@ -1692,8 +1692,21 @@ SUBROUTINE TRANSFER_MP_PARAMETERS(NSOIL,VEGTYPE,SOILTYPE,SLOPETYPE,SOILCOLOR,CRO
     parameters%KDT    = parameters%REFKDT * parameters%DKSAT(1) / parameters%REFDK
     parameters%SLOPE  = SLOPE_TABLE(SLOPETYPE)
 
-    IF(parameters%URBAN_FLAG)THEN  ! Hardcoding some urban parameters for soil
-       parameters%SMCMAX = 0.45 
+
+! ----------------------------------------------------------------------
+! Transfer LCZ parameters
+! ----------------------------------------------------------------------
+    ! LCZ start at 51 (at least in version v4.5.1)
+    IF (parameters%LCZ_1_TABLE /= 51) THEN
+      CALL wrf_error_fatal( "module_sf_noahmpdrv.F: transfer_mp_parameters: wrong value " //          &
+        "for LCZ_1. It is not 51 !!" )
+    END IF
+    
+    parameters%SMCMAX_lcz = SMCMAX_lcz_TABLE(VEGTYPE-50)
+    parameters%FCR_lcz = FCR_lcz_TABLE(VEGTYPE-50)
+
+    IF(parameters%URBAN_FLAG) THEN  ! Hardcoding some urban parameters for soil
+       parameters%SMCMAX = parameters%SMCMAX_lcz
        parameters%SMCREF = 0.42 
        parameters%SMCWLT = 0.40 
        parameters%SMCDRY = 0.40 
@@ -2005,6 +2018,7 @@ SUBROUTINE PEDOTRANSFER_SR2006(nsoil,sand,clay,orgm,parameters)
     call read_tiledrain_parameters()
     call read_mp_optional_parameters()
     if(iopt_irr  >= 1) call read_mp_irrigation_parameters()
+    if (sf_urban_physics == 2 .OR. sf_urban_physics == 3) read_mp_lcz_parameters()
 
     IF( .NOT. restart ) THEN
 
