@@ -1867,8 +1867,6 @@ SUBROUTINE PEDOTRANSFER_SR2006(nsoil,sand,clay,orgm,parameters)
 
   USE NOAHMP_TABLES
   use module_sf_gecros, only: seednc,sla0,slnmin,ffat,flig,foac,fmin,npl,seedw,eg,fcrsh,seednc,lnci,cfv
-  USE module_sf_noahmplsm, only: read_mp_lcz_parameters
-
 
   IMPLICIT NONE
 
@@ -2018,7 +2016,7 @@ SUBROUTINE PEDOTRANSFER_SR2006(nsoil,sand,clay,orgm,parameters)
     call read_tiledrain_parameters()
     call read_mp_optional_parameters()
     if(iopt_irr  >= 1) call read_mp_irrigation_parameters()
-    if (sf_urban_physics == 2 .OR. sf_urban_physics == 3) read_mp_lcz_parameters()
+    if (sf_urban_physics == 2 .OR. sf_urban_physics == 3) CALL read_mp_lcz_parameters()
 
     IF( .NOT. restart ) THEN
 
