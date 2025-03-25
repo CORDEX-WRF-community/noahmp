@@ -1867,6 +1867,7 @@ SUBROUTINE PEDOTRANSFER_SR2006(nsoil,sand,clay,orgm,parameters)
 
   USE NOAHMP_TABLES
   use module_sf_gecros, only: seednc,sla0,slnmin,ffat,flig,foac,fmin,npl,seedw,eg,fcrsh,seednc,lnci,cfv
+  USE module_sf_noahmplsm, only: read_mp_lcz_parameters
 
 
   IMPLICIT NONE
