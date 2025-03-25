@@ -1997,7 +1997,6 @@ SUBROUTINE PEDOTRANSFER_SR2006(nsoil,sand,clay,orgm,parameters)
 ! gecros local variables
     REAL ::  hti,rdi,fpro,lncmin,fcar,cfo,clvi,crti,ygo,nlvi,laii,nrti,slnbi
 
-
     REAL, PARAMETER           :: BLIM  = 5.5
     REAL, PARAMETER           :: HLICE = 3.335E5
     REAL, PARAMETER           :: GRAV = 9.81
@@ -3044,6 +3043,14 @@ end function checkIfHarvest
                        sfwin1_urb3d,   sfwin2_urb3d,                                        & !H multi-layer urban
                          sfw1_urb3d,     sfw2_urb3d,      sfr_urb3d,  sfg_urb3d,            & !H multi-layer urban
                         ep_pv_urb3d,     t_pv_urb3d,                                        & !RMS
+                       num_urban_nz,                                                        &
+#ifdef URBANSTATE
+                             ua_u3D,         va_u3D,         pt_u3D,     da_u3D,   pt0_u3D, &
+                             pr_u3D,         qv_u3D,                                        &
+#endif
+                         nurbi, nd, nz_ui, ng_u, ngr_u,                                     &
+                         nwr_u, nf_u, ngb_u, nbi, p_num, q_num,                             &
+                         dz_u, h_water,                                                     &
                           trv_urb4d,       qr_urb4d,      qgr_urb3d,  tgr_urb3d,            & !RMS
                         drain_urb4d,  draingr_urb3d,     sfrv_urb3d, lfrv_urb3d,            & !RMS
                           dgr_urb3d,       dg_urb3d,      lfr_urb3d,  lfg_urb3d,            & !RMS
@@ -3342,6 +3349,25 @@ end function checkIfHarvest
      REAL, OPTIONAL, DIMENSION( ims:ime, kms:kme, jms:jme ),            INTENT(INOUT) :: sf_bep    !Fraction air at the face of grid cell
      REAL, OPTIONAL, DIMENSION( ims:ime, kms:kme, jms:jme ),            INTENT(INOUT) :: dl_u_bep  !Length scale
 
+     INTEGER, INTENT(in)                                 :: num_urban_nz
+     INTEGER, INTENT(in)                                 :: nurbi, nd, nz_ui, ng_u, ngr_u, nwr_u,     &
+       nf_u, ngb_u, nbi, p_num, q_num
+     REAL, INTENT(in)                                    :: dz_u, h_water
+#ifdef URBANSTATE
+! Data interpolated from the "mesoscale grid" to the "urban grid"
+! ua_u3D: Wind speed in the x direction [ms-1]
+! va_u3D: Wind speed in the y direction [ms-1]
+! pt_u3D: Potential temperature [K]
+! da_u3D: Air density [kgm-3]
+! pt0_u3D: Reference potential temperature [K]
+! pr_u3D: Air pressure [Pa]
+! qv_u3D: water vapour mixing ratio [kgkg-1]
+   REAL, OPTIONAL,                                                                                    &
+    DIMENSION(ims:ime,1:num_urban_nz,jms:jme),                                                        &
+     INTENT(inout)                                       :: ua_u3D, va_u3D, pt_u3D, da_u3D, pt0_u3D,  &
+     pr_u3D, qv_u3D
+#endif
+
 ! Local variables for multi-layer UCM
 
      REAL,    DIMENSION( its:ite, jts:jte) :: HFX_RURAL,GRDFLX_RURAL          ! ,LH_RURAL,RN_RURAL
@@ -3626,6 +3652,11 @@ END DO
        urban_map_gbd, urban_map_fbd,  num_urban_hi,                &
            trb_urb4d,    tw1_urb4d, tw2_urb4d,  tgb_urb4d,         &
           sfw1_urb3d,   sfw2_urb3d, sfr_urb3d,  sfg_urb3d,         &
+        num_urban_nz,                                              &
+#ifdef URBANSTATE
+              ua_u3D, va_u3D, pt_u3D, da_u3D, pt0_u3D, pr_u3D,     &
+#endif
+               nurbi,  nd,   nz_ui,  ng_u, nwr_u,    dz_u,         &
             lp_urb2d,     hi_urb2d,  lb_urb2d,  hgt_urb2d,         &
              a_u_bep,      a_v_bep,   a_t_bep,                     &
              a_e_bep,      b_u_bep,   b_v_bep,                     &
@@ -3671,6 +3702,13 @@ END DO
               drain_urb4d,draingr_urb3d,   sfrv_urb3d,  lfrv_urb3d,        & !RMS
                 dgr_urb3d,     dg_urb3d,    lfr_urb3d,   lfg_urb3d,        & !RMS
                    rainbl,       swddir,       swddif,                     &
+             num_urban_nz,                                                 &
+#ifdef URBANSTATE
+                   ua_u3D, va_u3D, pt_u3D, da_u3D, pt0_u3D, pr_u3D,        &
+                   qv_u3D,                                                 &
+#endif
+                nurbi, nd, nz_ui,  ng_u,        ngr_u,                     &
+              nwr_u, nf_u, ngb_u,  nbi, p_num, q_num, dz_u, h_water,       &
                  lp_urb2d,     hi_urb2d,     lb_urb2d,    hgt_urb2d,       &
                   a_u_bep,      a_v_bep,      a_t_bep,                     &
                   a_e_bep,      b_u_bep,      b_v_bep,                     &
