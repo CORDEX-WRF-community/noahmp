@@ -12397,7 +12397,7 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
       ! Here are the variables we expect to be defined in the URBPARM.TBL:
       IF (name == "Number of urban categories") THEN
          READ(string(indx+1:),*) icate
-         IF (.NOT. ALLOCATED(scmcax_tbl)) THEN
+         IF (.NOT. ALLOCATED(smcmax_tbl)) THEN
             ALLOCATE( smcmax_tbl(icate), stat=allocate_status )
             if(allocate_status /= 0) FATAL_ERROR('Error allocating SMCMAX_TBL in read_mp_lcz_parameters')
             ALLOCATE( fcr_tbl(icate), stat=allocate_status )
