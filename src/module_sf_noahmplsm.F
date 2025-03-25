@@ -12356,7 +12356,7 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
 
   end subroutine read_mp_optional_parameters
   
-  SUBROUTINE read_mp_lcz_parameters(DATASET_IDENTIFIER)
+  SUBROUTINE read_mp_lcz_parameters()
   ! Subroutine to read values from URBPARM_LCZ.TBL () file and store them into the noahmp_parameters TYPE
   !   L. Fita, UBA/CIMA/IFAECI, June 2024
 
@@ -12365,7 +12365,6 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
 
     IMPLICIT NONE
 
-    CHARACTER(len=*), INTENT(in)                         :: DATASET_IDENTIFIER
     INTEGER                                              :: ierr, iostatus, allocate_status
     INTEGER                                              :: indx
     INTEGER                                              :: icate
