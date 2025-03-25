@@ -1697,7 +1697,7 @@ SUBROUTINE TRANSFER_MP_PARAMETERS(NSOIL,VEGTYPE,SOILTYPE,SLOPETYPE,SOILCOLOR,CRO
 ! Transfer LCZ parameters
 ! ----------------------------------------------------------------------
     ! LCZ start at 51 (at least in version v4.5.1)
-    IF (parameters%LCZ_1_TABLE /= 51) THEN
+    IF (LCZ_1_TABLE /= 51) THEN
       CALL wrf_error_fatal( "module_sf_noahmpdrv.F: transfer_mp_parameters: wrong value " //          &
         "for LCZ_1. It is not 51 !!" )
     END IF
