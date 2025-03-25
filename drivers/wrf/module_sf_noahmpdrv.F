@@ -2174,7 +2174,7 @@ SUBROUTINE PEDOTRANSFER_SR2006(nsoil,sand,clay,orgm,parameters)
            ENDIF
 
            IF(IVGTYP(I,J) == ISBARREN_TABLE .OR. IVGTYP(I,J) == ISICE_TABLE .OR. &
-	      ( SF_URBAN_PHYSICS == 0 .AND. urbanpt_flag )  .OR. &
+	      urbanpt_flag   .OR. &
 	      IVGTYP(I,J) == ISWATER_TABLE ) THEN
 	     
 	     lai        (I,J) = 0.0
