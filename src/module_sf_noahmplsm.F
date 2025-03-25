@@ -12363,7 +12363,7 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
     IMPLICIT NONE
 
     CHARACTER(len=*), INTENT(in)                         :: DATASET_IDENTIFIER
-    INTEGER                                              :: ierr, iostatus
+    INTEGER                                              :: ierr, iostatus, allocate_status
     INTEGER                                              :: indx
     INTEGER                                              :: icate
     CHARACTER(len=512)                                   :: string    
