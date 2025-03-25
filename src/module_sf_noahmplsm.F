@@ -12360,6 +12360,9 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
   ! Subroutine to read values from URBPARM_LCZ.TBL () file and store them into the noahmp_parameters TYPE
   !   L. Fita, UBA/CIMA/IFAECI, June 2024
 
+    use module_wrf_error
+#define FATAL_ERROR(M) call wrf_error_fatal( M)
+
     IMPLICIT NONE
 
     CHARACTER(len=*), INTENT(in)                         :: DATASET_IDENTIFIER
