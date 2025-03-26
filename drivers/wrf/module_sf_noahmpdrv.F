@@ -2174,7 +2174,7 @@ SUBROUTINE PEDOTRANSFER_SR2006(nsoil,sand,clay,orgm,parameters)
            ENDIF
 
            IF(IVGTYP(I,J) == ISBARREN_TABLE .OR. IVGTYP(I,J) == ISICE_TABLE .OR. &
-	      urbanpt_flag   .OR. &
+              ( SF_URBAN_PHYSICS == 0 .AND. urbanpt_flag )  .OR. &
 	      IVGTYP(I,J) == ISWATER_TABLE ) THEN
 	     
 	     lai        (I,J) = 0.0
@@ -2193,7 +2193,11 @@ SUBROUTINE PEDOTRANSFER_SR2006(nsoil,sand,clay,orgm,parameters)
 	     
 	     lai        (I,J) = max(lai(i,j),0.05)             ! at least start with 0.05 for arbitrary initialization (v3.7)
              xsaixy     (I,J) = max(0.1*lai(I,J),0.05)         ! MB: arbitrarily initialize SAI using input LAI (v3.7)
-             masslai = 1000. / max(SLA_TABLE(IVGTYP(I,J)),1.0) ! conversion from lai to mass  (v3.7)
+             IF (urbanpt_flag) THEN
+               masslai = 1000. / max(SLA_TABLE(NATURAL_TABLE),1.0) ! conversion from lai to mass  (v3.7)
+             ELSE
+               masslai = 1000. / max(SLA_TABLE(IVGTYP(I,J)),1.0) ! conversion from lai to mass  (v3.7)
+             END IF
              lfmassxy   (I,J) = lai(i,j)*masslai               ! use LAI to initialize (v3.7)
              masssai = 1000. / 3.0                             ! conversion from lai to mass (v3.7)
              stmassxy   (I,J) = xsaixy(i,j)*masssai            ! use SAI to initialize (v3.7)
