@@ -12202,8 +12202,10 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
 
   end subroutine read_mp_crop_parameters
 
-  subroutine read_mp_irrigation_parameters()
+  subroutine read_mp_irrigation_parameters(iopt_irr)
     implicit none
+
+    INTEGER, INTENT(in)                                  :: iopt_irr
     integer :: ierr
     logical :: file_named 
 
@@ -12237,6 +12239,10 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
       else
         open(15, status='old', form='formatted', action='read', iostat=ierr)
       end if
+    ELSE
+      ! Nothing to read, nothing to do
+      RETURN
+
     END IF
 
     if (ierr /= 0) then
