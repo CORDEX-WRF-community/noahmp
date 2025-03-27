@@ -12225,12 +12225,14 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
     FIRTFAC_TABLE    = -1.0E36    ! flood application rate factor
     IR_RAIN_TABLE    = -1.0E36    ! maximum precipitation to stop irrigation trigger
 
-    inquire( file='MPTABLE.TBL', exist=file_named ) 
-    if ( file_named ) then
-      open(15, file="MPTABLE.TBL", status='old', form='formatted', action='read', iostat=ierr)
-    else
-      open(15, status='old', form='formatted', action='read', iostat=ierr)
-    end if
+    IF (iopt_irr >= 1) THEN
+      inquire( file='MPTABLE.TBL', exist=file_named ) 
+      if ( file_named ) then
+        open(15, file="MPTABLE.TBL", status='old', form='formatted', action='read', iostat=ierr)
+      else
+        open(15, status='old', form='formatted', action='read', iostat=ierr)
+      end if
+    END IF
 
     if (ierr /= 0) then
        write(*,'("WARNING: Cannot find file MPTABLE.TBL")')
