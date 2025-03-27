@@ -890,6 +890,11 @@ contains
      MIFAC = MIFRA
      FIFAC = FIFRA
 
+     PRINT *,' Do we reach this point ?'
+     print *, '  OPT_IRRM:', OPT_IRRM, ' SIFAC', SIFAC, ' MIFAC', MIFAC, ' FIFAC', FIFAC
+     print *, '  IRRFRA:', IRRFRA
+     print *, '  IRR_FRAC:', parameters%IRR_FRAC
+     PRINT *,' Just before the point' 
 ! If OPT_IRRM = 0 and if methods are unknown for certain area, then use sprinkler irrigation method
      IF((OPT_IRRM .EQ. 0) .AND. (SIFAC .EQ. 0.0) .AND. (MIFAC .EQ. 0.0) .AND. (FIFAC .EQ. 0.0) &
          .AND. (IRRFRA .GE. parameters%IRR_FRAC)) THEN
