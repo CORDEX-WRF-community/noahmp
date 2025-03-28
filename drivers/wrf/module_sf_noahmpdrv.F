@@ -3053,6 +3053,7 @@ end function checkIfHarvest
                          nurbmax, ndm, nz_um, ng_u, ngr_u,                                  &
                          nwr_u, nf_u, ngb_u, nbui_max, p_num, q_num,                        &
                          dz_u, h_water,                                                     &
+                        emins, albins, thickwin, cswin, temp_rat, hum_rat, effpv,           &
                           trv_urb4d,       qr_urb4d,      qgr_urb3d,  tgr_urb3d,            & !RMS
                         drain_urb4d,  draingr_urb3d,     sfrv_urb3d, lfrv_urb3d,            & !RMS
                           dgr_urb3d,       dg_urb3d,      lfr_urb3d,  lfg_urb3d,            & !RMS
@@ -3355,6 +3356,9 @@ end function checkIfHarvest
      INTEGER, INTENT(in)                                 :: nurbmax, ndm, nz_um, ng_u, ngr_u, nwr_u,  &
        nf_u, ngb_u, nbui_max, p_num, q_num
      REAL, INTENT(in)                                    :: dz_u, h_water
+     REAL, INTENT(in)                                    :: emins, albins, thickwin, cswin, temp_rat, &
+       hum_rat, effpv
+
 #ifdef URBANSTATE
 ! Data interpolated from the "mesoscale grid" to the "urban grid"
 ! ua_u3D: Wind speed in the x direction [ms-1]
@@ -3711,6 +3715,7 @@ END DO
 #endif
                 nurbmax, ndm, nz_um,  ng_u,        ngr_u,                  &
               nwr_u, nf_u, ngb_u,  nbui_max, p_num, q_num, dz_u, h_water,  &
+              emins, albins, thickwin, cswin, temp_rat, hum_rat, effpv,    &              
                  lp_urb2d,     hi_urb2d,     lb_urb2d,    hgt_urb2d,       &
                   a_u_bep,      a_v_bep,      a_t_bep,                     &
                   a_e_bep,      b_u_bep,      b_v_bep,                     &
