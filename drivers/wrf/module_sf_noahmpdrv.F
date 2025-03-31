@@ -3685,7 +3685,12 @@ END DO
 #ifdef URBANSTATE
               ua_u3D, va_u3D, pt_u3D, da_u3D, pt0_u3D, pr_u3D,     &
 #endif
-               nurbmax,  ndm,   nz_um,  ng_u, nwr_u,    dz_u,      &
+             nurbmax,       ndm,    nz_um,    ng_u, nwr_u, dz_u,   &
+              alag_u,    alaw_u,   alar_u,   csg_u, csw_u,csr_u,   &
+              albg_u,    albw_u,   albr_u,   emg_u, emw_u,emr_u,   &
+               z0g_u,     z0r_u,     nd_u,  strd_u, drst_u,        &
+                ws_u,      bs_u,      h_b,     d_b,   ss_u,  pb_u, &
+                nz_u,      z_u,                                    &
             lp_urb2d,     hi_urb2d,  lb_urb2d,  hgt_urb2d,         &
              a_u_bep,      a_v_bep,   a_t_bep,                     &
              a_e_bep,      b_u_bep,   b_v_bep,                     &
