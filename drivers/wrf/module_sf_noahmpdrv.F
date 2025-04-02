@@ -3064,7 +3064,7 @@ end function checkIfHarvest
                         targtemp_u, gaptemp_u, targhum_u, gaphum_u, perflo_u,               &
                         hsesf_u, hsequip, irho,                                             &
                         dzg_u,  dzgr_u, qrmax, smax, kmax,                                  &
-                        b, cd, dzr, dzw, dzgb, dzf,                                         &
+                        b, cd, dzr_u, dzw, dzgb, dzf,                                       &
                           trv_urb4d,       qr_urb4d,      qgr_urb3d,  tgr_urb3d,            & !RMS
                         drain_urb4d,  draingr_urb3d,     sfrv_urb3d, lfrv_urb3d,            & !RMS
                           dgr_urb3d,       dg_urb3d,      lfr_urb3d,  lfg_urb3d,            & !RMS
@@ -3385,7 +3385,7 @@ end function checkIfHarvest
      REAL, DIMENSION(24), INTENT(inout)                  :: hsequip, irho
      REAL, DIMENSION(ng_u), INTENT(in)                   :: dzg_u
      REAL, DIMENSION(ngr_u), INTENT(in)                  :: dzgr_u, qrmax, smax, kmax, b, cd
-     REAL, DIMENSION(nwr_u), INTENT(in)                  :: dzr, dzw
+     REAL, DIMENSION(nwr_u), INTENT(in)                  :: dzr_u, dzw
      REAL, DIMENSION(ngb_u), INTENT(in)                  :: dzgb
      REAL, DIMENSION(nf_u), INTENT(in)                   :: dzf
 
@@ -3698,7 +3698,7 @@ END DO
                z0g_u,     z0r_u,     nd_u,  strd_u, drst_u,        &
                 ws_u,      bs_u,      h_b,     d_b,   ss_u,  pb_u, &
                 nz_u,       z_u,                                   &
-               dzg_u,       dzr,      dzw,                         &
+               dzg_u,       dzr_u,      dzw,                       &
             lp_urb2d,     hi_urb2d,  lb_urb2d,  hgt_urb2d,         &
              a_u_bep,      a_v_bep,   a_t_bep,                     &
              a_e_bep,      b_u_bep,   b_v_bep,                     &
@@ -3762,7 +3762,7 @@ END DO
               targtemp_u, gaptemp_u, targhum_u, gaphum_u, perflo_u,        &
               hsesf_u, hsequip, irho,                                      &
               dzg_u, dzgr_u, qrmax, smax, kmax,                            &
-              b, cd, dzr, dzw, dzgb, dzf,                                  &
+              b, cd, dzr_u, dzw, dzgb, dzf,                                &
                  lp_urb2d,     hi_urb2d,     lb_urb2d,    hgt_urb2d,       &
                   a_u_bep,      a_v_bep,      a_t_bep,                     &
                   a_e_bep,      b_u_bep,      b_v_bep,                     &
