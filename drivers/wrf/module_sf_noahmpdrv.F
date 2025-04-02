@@ -3697,7 +3697,8 @@ END DO
               albg_u,    albw_u,   albr_u,   emg_u, emw_u,emr_u,   &
                z0g_u,     z0r_u,     nd_u,  strd_u, drst_u,        &
                 ws_u,      bs_u,      h_b,     d_b,   ss_u,  pb_u, &
-                nz_u,      z_u,                                    &
+                nz_u,       z_u,                                   &
+               dzg_u,       dzr,      dzw,                         &
             lp_urb2d,     hi_urb2d,  lb_urb2d,  hgt_urb2d,         &
              a_u_bep,      a_v_bep,   a_t_bep,                     &
              a_e_bep,      b_u_bep,   b_v_bep,                     &
@@ -3750,7 +3751,7 @@ END DO
 #endif
                 nurbmax, ndm, nz_um,  ng_u,        ngr_u,                  &
               nwr_u, nf_u, ngb_u,  nbui_max, p_num, q_num, dz_u, h_water,  &
-              emins, albins, thickwin, cswin, temp_rat, hum_rat, effpv,    & 
+              emins, albins, thickwin, cswin, temp_rat, hum_rat, effpv,    &
               alag_u, alaw_u, alar_u, csg_u, csw_u, csr_u,                 &
               albg_u, albw_u, albr_u, emg_u, emw_u, emr_u,                 &
               gr_flag_u, gr_type_u, gr_frac_roof_u, pv_frac_roof_u,        &
@@ -3759,8 +3760,8 @@ END DO
               nz_u, z_u, cop_u, pwin_u, beta_u, sw_cond_u,                 &
               bldac_frc_u, cooled_frc_u, time_on_u, time_off_u,            &
               targtemp_u, gaptemp_u, targhum_u, gaphum_u, perflo_u,        &
-              hsesf_u, hsequip, irho,                                      &                           
-              dzg_u, ,dzgr_u, qrmax, smax, kmax,                           &
+              hsesf_u, hsequip, irho,                                      &
+              dzg_u, dzgr_u, qrmax, smax, kmax,                            &
               b, cd, dzr, dzw, dzgb, dzf,                                  &
                  lp_urb2d,     hi_urb2d,     lb_urb2d,    hgt_urb2d,       &
                   a_u_bep,      a_v_bep,      a_t_bep,                     &
