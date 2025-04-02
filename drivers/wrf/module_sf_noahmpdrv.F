@@ -3385,7 +3385,7 @@ end function checkIfHarvest
      REAL, DIMENSION(24), INTENT(inout)                  :: hsequip, irho
      REAL, DIMENSION(ng_u), INTENT(in)                   :: dzg_u
      REAL, DIMENSION(ngr_u), INTENT(in)                  :: dzgr_u, qrmax, smax, kmax, b, cd
-     REAL, DIMENSION(nwr_u), INTENT(in)                  :: dzr, dzw
+     REAL, DIMENSION(nwr_u), INTENT(in)                  :: dzw
      REAL, DIMENSION(ngb_u), INTENT(in)                  :: dzgb
      REAL, DIMENSION(nf_u), INTENT(in)                   :: dzf
 
