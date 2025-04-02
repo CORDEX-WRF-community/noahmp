@@ -3064,7 +3064,7 @@ end function checkIfHarvest
                         targtemp_u, gaptemp_u, targhum_u, gaphum_u, perflo_u,               &
                         hsesf_u, hsequip, irho,                                             &
                         dzg_u,  dzgr_u, qrmax, smax, kmax,                                  &
-                        b, cd, dzw, dzgb, dzf,                                              &
+                        b, cd, dzr, dzw, dzgb, dzf,                                         &
                           trv_urb4d,       qr_urb4d,      qgr_urb3d,  tgr_urb3d,            & !RMS
                         drain_urb4d,  draingr_urb3d,     sfrv_urb3d, lfrv_urb3d,            & !RMS
                           dgr_urb3d,       dg_urb3d,      lfr_urb3d,  lfg_urb3d,            & !RMS
@@ -3385,7 +3385,7 @@ end function checkIfHarvest
      REAL, DIMENSION(24), INTENT(inout)                  :: hsequip, irho
      REAL, DIMENSION(ng_u), INTENT(in)                   :: dzg_u
      REAL, DIMENSION(ngr_u), INTENT(in)                  :: dzgr_u, qrmax, smax, kmax, b, cd
-     REAL, DIMENSION(nwr_u), INTENT(in)                  :: dzw
+     REAL, DIMENSION(nwr_u), INTENT(in)                  :: dzr, dzw
      REAL, DIMENSION(ngb_u), INTENT(in)                  :: dzgb
      REAL, DIMENSION(nf_u), INTENT(in)                   :: dzf
 
