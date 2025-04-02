@@ -3064,7 +3064,7 @@ end function checkIfHarvest
                         targtemp_u, gaptemp_u, targhum_u, gaphum_u, perflo_u,               &
                         hsesf_u, hsequip, irho,                                             &
                         dzg_u,  dzgr_u, qrmax, smax, kmax,                                  &
-                        b, cd, dzr, dzw, dzgb, dzf,                                         &
+                        b, cd, dzw, dzgb, dzf,                                              &
                           trv_urb4d,       qr_urb4d,      qgr_urb3d,  tgr_urb3d,            & !RMS
                         drain_urb4d,  draingr_urb3d,     sfrv_urb3d, lfrv_urb3d,            & !RMS
                           dgr_urb3d,       dg_urb3d,      lfr_urb3d,  lfg_urb3d,            & !RMS
