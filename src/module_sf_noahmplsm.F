@@ -4808,9 +4808,9 @@ ENDIF   ! CROPTYPE == 0
 ! ----------------------------------------------------------------------
 ! LECH'S SURFACE FUNCTIONS
     PSLMU (ZZ)= -0.96* log (1.0-4.5* ZZ)
-    PSLMS (ZZ)= ZZ * RRIC -2.076* (1.0 -1.0/ (ZZ +1.0))
+    PSLMS (ZZ)= (ZZ / RFC) -2.076* (1.0 -1.0/ (ZZ +1.0))
     PSLHU (ZZ)= -0.96* log (1.0-4.5* ZZ)
-    PSLHS (ZZ)= ZZ * RFAC -2.076* (1.0 -1.0/ (ZZ +1.0))
+    PSLHS (ZZ)= ZZ * RFAC -2.076* (1.0 - exp(-1.2 * ZZ))
 ! PAULSON'S SURFACE FUNCTIONS
     PSPMU (XX)= -2.0* log ( (XX +1.0)*0.5) - log ( (XX * XX +1.0)*0.5)   &
          &        +2.0* ATAN (XX)                                            &
@@ -12188,11 +12188,11 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
 
   end subroutine read_mp_crop_parameters
 
-  subroutine read_mp_irrigation_parameters()
+  subroutine read_mp_irrigation_parameters(iopt_irr)
     implicit none
     integer :: ierr
     logical :: file_named 
-
+    INTEGER, INTENT(in)   :: iopt_irr
     REAL    :: IRR_FRAC              ! irrigation Fraction
     INTEGER :: IRR_HAR               ! number of days before harvest date to stop irrigation 
     REAL    :: IRR_LAI               ! Minimum lai to trigger irrigation
@@ -12216,11 +12216,16 @@ RSURF_SNOW_TABLE     = RSURF_SNOW
     FIRTFAC_TABLE    = -1.0E36    ! flood application rate factor
     IR_RAIN_TABLE    = -1.0E36    ! maximum precipitation to stop irrigation trigger
 
-    inquire( file='MPTABLE.TBL', exist=file_named ) 
-    if ( file_named ) then
-      open(15, file="MPTABLE.TBL", status='old', form='formatted', action='read', iostat=ierr)
+    if (iopt_irr >= 1) THEN
+      inquire( file='MPTABLE.TBL', exist=file_named ) 
+      if ( file_named ) then
+        open(15, file="MPTABLE.TBL", status='old', form='formatted', action='read', iostat=ierr)
+      else
+        open(15, status='old', form='formatted', action='read', iostat=ierr)
+      end if
     else
-      open(15, status='old', form='formatted', action='read', iostat=ierr)
+      ! Nothing to read, nothing to do
+      RETURN
     end if
 
     if (ierr /= 0) then
