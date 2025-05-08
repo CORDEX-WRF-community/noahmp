@@ -3002,6 +3002,12 @@ end function checkIfHarvest
 	                 chc_sfcdif,    cmgr_sfcdif,    chgr_sfcdif,                        &
                            tr_urb2d,       tb_urb2d,       tg_urb2d,                        & !H urban
 	                   tc_urb2d,       qc_urb2d,       uc_urb2d,                        & !H urban
+                           tsk_rural,                                                       &
+!CORDEX
+                          t2g_urb2d,      t2r_urb2d,                                        &
+                          tcan_urb2d,      ucan_urb2d, qcan_urb2d,                                        &
+                          tground_urb2d,      troof_urb2d,                                        &
+!CORDEX
                          xxxr_urb2d,     xxxb_urb2d,     xxxg_urb2d, xxxc_urb2d,            & !H urban
                           trl_urb3d,      tbl_urb3d,      tgl_urb3d,                        & !H urban
                            sh_urb2d,       lh_urb2d,        g_urb2d,   rn_urb2d,  ts_urb2d, & !H urban
@@ -3181,6 +3187,15 @@ end function checkIfHarvest
      REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: TC_URB2D
      REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: QC_URB2D
      REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: UC_URB2D
+!CORDEX
+     REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: T2G_URB2D
+     REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: T2R_URB2D
+     REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: TCAN_URB2D
+     REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: UCAN_URB2D
+     REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: QCAN_URB2D
+     REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: TGROUND_URB2D
+     REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: TROOF_URB2D
+!CORDEX
      REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: XXXR_URB2D
      REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: XXXB_URB2D
      REAL, OPTIONAL, DIMENSION( ims:ime, jms:jme ), INTENT(INOUT) :: XXXG_URB2D
@@ -3327,12 +3342,15 @@ end function checkIfHarvest
      REAL, OPTIONAL, DIMENSION( ims:ime, kms:kme, jms:jme ),            INTENT(INOUT) :: dlg_bep   !Height above ground
      REAL, OPTIONAL, DIMENSION( ims:ime, kms:kme, jms:jme ),            INTENT(INOUT) :: sf_bep    !Fraction air at the face of grid cell
      REAL, OPTIONAL, DIMENSION( ims:ime, kms:kme, jms:jme ),            INTENT(INOUT) :: dl_u_bep  !Length scale
+!CORDEX
+     REAL, OPTIONAL, DIMENSION( ims:ime,  jms:jme ),            INTENT(INOUT) :: TSK_RURAL  !TSK_RURAL 
+!CORDEX
 
 ! Local variables for multi-layer UCM
 
      REAL,    DIMENSION( its:ite, jts:jte) :: HFX_RURAL,GRDFLX_RURAL          ! ,LH_RURAL,RN_RURAL
      REAL,    DIMENSION( its:ite, jts:jte) :: QFX_RURAL                       ! ,QSFC_RURAL,UMOM_RURAL,VMOM_RURAL
-     REAL,    DIMENSION( its:ite, jts:jte) :: ALB_RURAL,EMISS_RURAL,TSK_RURAL ! ,UST_RURAL
+     REAL,    DIMENSION( its:ite, jts:jte) :: ALB_RURAL,EMISS_RURAL ! ,UST_RURAL
      REAL,    DIMENSION( its:ite, jts:jte) :: HFX_URB,UMOM_URB,VMOM_URB
      REAL,    DIMENSION( its:ite, jts:jte) :: QFX_URB
      REAL,    DIMENSION( its:ite, jts:jte) :: EMISS_URB
@@ -3354,7 +3372,7 @@ end function checkIfHarvest
       QFX_RURAL(I,J)                = QFX(I,J)
       GRDFLX_RURAL(I,J)             = GRDFLX(I,J)
       EMISS_RURAL(I,J)              = EMISS(I,J)
-      TSK_RURAL(I,J)                = TSK(I,J)
+ !     TSK_RURAL(I,J)                = TSK(I,J)
       ALB_RURAL(I,J)                = ALBEDO(I,J)
     END DO
     END DO
@@ -3663,6 +3681,10 @@ END DO
                   b_t_bep,      b_e_bep,      b_q_bep,      dlg_bep,       &
                  dl_u_bep,       sf_bep,       vl_bep,                     &
                 rl_up_urb,   rs_abs_urb,    emiss_urb,   grdflx_urb, qv3d, &
+!CORDEX                
+                tground_urb2d,troof_urb2d,tcan_urb2d,                                &
+                t2g_urb2d,t2r_urb2d,ucan_urb2d,qcan_urb2d,                                &
+!CORDEX
              ids,ide, jds,jde, kds,kde,                                    &
              ims,ime, jms,jme, kms,kme,                                    &
              its,ite, jts,jte, kts,kte )
@@ -3752,7 +3774,6 @@ IF((SF_URBAN_PHYSICS == 2).OR.(SF_URBAN_PHYSICS == 3))THEN
     rn_urb2d(i,j)    = 0.
 
   ENDIF
-
   enddo ! jloop
   enddo ! iloop
 
