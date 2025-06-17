@@ -3158,7 +3158,7 @@ end function checkIfHarvest
      REAL, INTENT(in)                                    :: dz_u, h_water
      REAL, INTENT(in)                                    :: emins, albins, thickwin, cswin,&
        temp_rat, hum_rat, effpv
-     INTEGER(inout)                                      :: urbanfirst
+     INTEGER, INTENT(inout)                              :: urbanfirst
      REAL, DIMENSION(nurbmax), INTENT(inout)             :: alag_u, alaw_u, alar_u, csg_u, csw_u,csr_u
      REAL, DIMENSION(nurbmax), INTENT(inout)             :: albg_u, albw_u, albr_u, emg_u, emw_u,     &
        emr_u, gr_frac_roof_u, pv_frac_roof_u, albwin_u, emwind_u
