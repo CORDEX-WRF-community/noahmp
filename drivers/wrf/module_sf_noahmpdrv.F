@@ -3060,6 +3060,7 @@ end function checkIfHarvest
                          nwr_u, nf_u, ngb_u, nbui_max, p_num, q_num,                        &
                          dz_u, h_water,                                                     &
                         emins, albins, thickwin, cswin, temp_rat, hum_rat, effpv,           &
+                        urbanfirst,                                                         &
                         alag_u, alaw_u, alar_u, csg_u, csw_u, csr_u,                        &
                         albg_u, albw_u, albr_u, emg_u, emw_u, emr_u,                        &
                         gr_flag_u, gr_type_u, gr_frac_roof_u, pv_frac_roof_u,               &
@@ -3157,6 +3158,7 @@ end function checkIfHarvest
      REAL, INTENT(in)                                    :: dz_u, h_water
      REAL, INTENT(in)                                    :: emins, albins, thickwin, cswin,&
        temp_rat, hum_rat, effpv
+     INTEGER(inout)                                      :: urbanfirst
      REAL, DIMENSION(nurbmax), INTENT(inout)             :: alag_u, alaw_u, alar_u, csg_u, csw_u,csr_u
      REAL, DIMENSION(nurbmax), INTENT(inout)             :: albg_u, albw_u, albr_u, emg_u, emw_u,     &
        emr_u, gr_frac_roof_u, pv_frac_roof_u, albwin_u, emwind_u
@@ -3704,6 +3706,7 @@ END DO
               ua_u3D, va_u3D, pt_u3D, da_u3D, pt0_u3D, pr_u3D,     &
 #endif
              nurbmax,       ndm,    nz_um,    ng_u, nwr_u, dz_u,   &
+          urbanfirst,                                              &
               alag_u,    alaw_u,   alar_u,   csg_u, csw_u,csr_u,   &
               albg_u,    albw_u,   albr_u,   emg_u, emw_u,emr_u,   &
                z0g_u,     z0r_u,     nd_u,  strd_u, drst_u,        &
@@ -3763,6 +3766,7 @@ END DO
                 nurbmax, ndm, nz_um,  ng_u,        ngr_u,                  &
               nwr_u, nf_u, ngb_u,  nbui_max, p_num, q_num, dz_u, h_water,  &
               emins, albins, thickwin, cswin, temp_rat, hum_rat, effpv,    &
+              urbanfirst,                                                  &
               alag_u, alaw_u, alar_u, csg_u, csw_u, csr_u,                 &
               albg_u, albw_u, albr_u, emg_u, emw_u, emr_u,                 &
               gr_flag_u, gr_type_u, gr_frac_roof_u, pv_frac_roof_u,        &
